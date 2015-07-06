@@ -1,6 +1,19 @@
 #include "Arduino.h"
 #include "Tank.h"
 
+/**
+ * Create a new TankDuino object
+ *
+ * Drive motors are controlled via an H-bridge motor controller where each
+ * transistor (or FET or similar) is controlled by one of four pins.
+ *
+ * Left Forward, Left Reverse, Right Forward, and Right Reverse.
+ *
+ * byte pinLF pin that left forward FET gate is connected to
+ * byte pinLR pin that left reverse FET gate is connected to
+ * byte pinRF pin that right forward FET gate is connected to
+ * byte pinRR pin that right reverse FET gate is connected to
+ */
 Tank::Tank(byte pinLF, byte pinLR, byte pinRF, byte pinRR)
 {
   lf = pinLF;
@@ -16,6 +29,11 @@ Tank::Tank(byte pinLF, byte pinLR, byte pinRF, byte pinRR)
   _stopAll();
 }
 
+/**
+ * Control an LED (or piezo, or maybe both?) that is turned on and off when the
+ * "cannon" is fired.
+ * byte pinCannon pin that the cannon LED is connected to.
+ */
 void Tank::setCannon(byte pinCannon)
 {
   cannon = pinCannon;
@@ -44,7 +62,8 @@ void Tank::fire()
 }
 
 /*
- * drive forwards for n seconds
+ * Drive forwards for n milliseconds.
+ * unsigned long ms number of milliseconds to drive for
  */
 void Tank::forwards(unsigned long ms)
 {
@@ -53,7 +72,8 @@ void Tank::forwards(unsigned long ms)
 }
 
 /*
- * pivot left for n seconds
+ * Pivot left for n milliseconds.
+ * unsigned long ms number of milliseconds to drive for
  */
 void Tank::left(unsigned long ms)
 {
@@ -62,7 +82,8 @@ void Tank::left(unsigned long ms)
 }
 
 /*
- * drive backwards for n seconds
+ * Drive backwards for n milliseconds.
+ * unsigned long ms number of milliseconds to drive for
  */
 void Tank::reverse(unsigned long ms)
 {
@@ -71,7 +92,8 @@ void Tank::reverse(unsigned long ms)
 }
 
 /*
- * pivot right for n seconds
+ * Pivot right for n milliseconds.
+ * unsigned long ms number of milliseconds to drive for
  */
 void Tank::right(unsigned long ms)
 {
@@ -79,6 +101,14 @@ void Tank::right(unsigned long ms)
   _drive(ms, lf, rr);
 }
 
+/*
+ * drive motors for n milliseconds. give it two pins.
+ * DOES NOT check for shoot through conditions, so be careful to not
+ * burn out the transistors.
+ * unsigned long ms number of milliseconds to drive for
+ * byte pin1 one pin to control
+ * byte pin2 the other pin to control
+ */
 void Tank::_drive(unsigned long ms, byte pin1, byte pin2)
 {
   unsigned long start;
@@ -95,6 +125,9 @@ void Tank::_drive(unsigned long ms, byte pin1, byte pin2)
   _stopAll();
 }
 
+/*
+ * ensure all movement stopped
+ */
 void Tank::_stopAll()
 {
   analogWrite(lf,0);
