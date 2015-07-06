@@ -40,7 +40,7 @@ void Tank::setCannon(byte pinCannon)
   pinMode(cannon, OUTPUT);
 }
 
-/*
+/**
  * BOOM!
  */
 void Tank::fire()
@@ -61,7 +61,7 @@ void Tank::fire()
   _stopAll();
 }
 
-/*
+/**
  * Drive forwards for n milliseconds.
  * unsigned long ms number of milliseconds to drive for
  */
@@ -71,7 +71,7 @@ void Tank::forwards(unsigned long ms)
   _drive(ms, lf, rf);
 }
 
-/*
+/**
  * Pivot left for n milliseconds.
  * unsigned long ms number of milliseconds to drive for
  */
@@ -81,7 +81,7 @@ void Tank::left(unsigned long ms)
   _drive(ms, lr, rf);
 }
 
-/*
+/**
  * Drive backwards for n milliseconds.
  * unsigned long ms number of milliseconds to drive for
  */
@@ -91,7 +91,7 @@ void Tank::reverse(unsigned long ms)
   _drive(ms, lr, rr);
 }
 
-/*
+/**
  * Pivot right for n milliseconds.
  * unsigned long ms number of milliseconds to drive for
  */
@@ -101,10 +101,11 @@ void Tank::right(unsigned long ms)
   _drive(ms, lf, rr);
 }
 
-/*
- * drive motors for n milliseconds. give it two pins.
+/**
+ * Drive motors for n milliseconds. give it two pins.
  * DOES NOT check for shoot through conditions, so be careful to not
- * burn out the transistors.
+ * burn out the transistors/FETs.
+ *
  * unsigned long ms number of milliseconds to drive for
  * byte pin1 one pin to control
  * byte pin2 the other pin to control
@@ -125,7 +126,7 @@ void Tank::_drive(unsigned long ms, byte pin1, byte pin2)
   _stopAll();
 }
 
-/*
+/**
  * ensure all movement stopped
  */
 void Tank::_stopAll()
